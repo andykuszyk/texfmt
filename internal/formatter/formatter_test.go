@@ -6,6 +6,9 @@ import (
 	"fmt"
 	"strings"
 	"os"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+	"path/filepath"
 )
 
 type TestCase struct {
@@ -29,18 +32,20 @@ func TestFormat(t *testing.T) {
 		}
 		testCase := TestCase {
 			Name:	name,
-			Before: getText(beforeFile),
+			Before: filepath.Join("..", "..", "testdata", beforeFile.Name()),
 			After:  getText(afterFile),
 		}
 		testCases = append(testCases, testCase)
 	}
 	for _, testCase := range testCases {
-		t.Log(fmt.Sprintf("Found test case %s (%s, %s)", testCase.Name, testCase.Before, testCase.After))
+		actual, err := Format(testCase.Before, 120)
+		require.Nil(t, err)
+		assert.Equal(t, testCase.After, actual)
 	}
 }
 
 func getText(fileInfo os.FileInfo) string {
-	bytes, err := ioutil.ReadFile(fmt.Sprintf("../../testdata/%s", fileInfo.Name()))
+	bytes, err := ioutil.ReadFile(filepath.Join("..", "..", "testdata", fileInfo.Name()))
 	if err != nil {
 		return ""
 	}
