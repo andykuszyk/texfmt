@@ -3,3 +3,6 @@ build:
 
 test:
 	go test -v ./...
+
+watch:
+	find . | grep -e go$ | entr -c make test
