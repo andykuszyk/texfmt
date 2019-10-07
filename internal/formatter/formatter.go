@@ -37,9 +37,12 @@ func splitLines(line string, width int) []string {
 }
 
 func findSplitIndex(line string, width int) int {
-	index := width + 1
+	if string(line[width + 1]) == " " {
+		return width
+	}
+	index := width
 	for string(line[index]) != " " {
 		index -= 1
 	}
-	return index + 1
+	return index
 }
