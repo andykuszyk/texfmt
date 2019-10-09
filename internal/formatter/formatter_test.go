@@ -38,9 +38,11 @@ func TestFormat(t *testing.T) {
 		testCases = append(testCases, testCase)
 	}
 	for _, testCase := range testCases {
-		actual, err := Format(testCase.Before, 120)
-		require.Nil(t, err)
-		assert.Equal(t, testCase.After, actual)
+		t.Run(testCase.Name, func(t *testing.T) {
+			actual, err := Format(testCase.Before, 120)
+			require.Nil(t, err)
+			assert.Equal(t, testCase.After, actual)
+		})
 	}
 }
 
