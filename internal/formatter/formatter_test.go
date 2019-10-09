@@ -77,9 +77,10 @@ func getBeforeFiles(fileInfos []os.FileInfo) []os.FileInfo {
 }
 
 type FindSplitIndexTestCase struct {
-	Name	string
-	Line	string
-	Index	int
+	Name		string
+	Line		string
+	Index		int
+	SplitChar	string
 }
 
 func TestFindSplitIndex(t *testing.T) {
@@ -88,11 +89,13 @@ func TestFindSplitIndex(t *testing.T) {
 			Name: "Space after index",
 			Line: "aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute",
 			Index: 120,
+			SplitChar: " ",
 		},
 		FindSplitIndexTestCase{
 			Name: "First space before width",
 			Line: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
 			Index: 116,
+			SplitChar: "a",
 		},
 	}
 
@@ -100,6 +103,7 @@ func TestFindSplitIndex(t *testing.T) {
 		t.Run(testCase.Name, func(t *testing.T) {
 			actual := findSplitIndex(testCase.Line, 120)
 			assert.Equal(t, testCase.Index, actual)
+			assert.Equal(t, testCase.SplitChar, string(testCase.Line[actual]))
 		})
 	}
 }
