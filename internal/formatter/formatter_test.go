@@ -109,3 +109,11 @@ func TestFindSplitIndex(t *testing.T) {
 		})
 	}
 }
+
+func TestGetFirstWord(t *testing.T) {
+	actual := getFirstWord(" foo bar")
+	assert.Equal(t, " ", actual)
+
+	actual = getFirstWord("foo bar")
+	assert.Equal(t, "foo", actual)
+}

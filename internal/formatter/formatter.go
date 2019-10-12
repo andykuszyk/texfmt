@@ -12,14 +12,86 @@ func Format(file string, width int) (string, error) {
 	if err != nil {
 		return "", errors.New(fmt.Sprintf("Error reading file (%s): %s", file, err))
 	}
-	text := strings.Split(string(fileContents), "\n")
-	formattedText := []string{}
-	for _, line := range text {
-		for _, splitLine := range splitLines(line, width) {
-			formattedText = append(formattedText, splitLine)
+	lines := strings.Split(string(fileContents), "\n")
+	formattedLines := formatLines(lines, width)
+	for {
+		shuffled, shuffledLines := shuffleLines(formattedLines, width)
+		if !shuffled {
+			break
+		}
+		formattedLines = make([]string, len(shuffledLines))
+		copy(formattedLines, shuffledLines)
+	}
+	return strings.Join(removeEmpty(formattedLines), "\n"), nil
+}
+
+func removeEmpty(lines []string) []string {
+	nonEmptyLines := []string{}
+	for _, line := range lines {
+		if len(line) == 0 {
+			continue
+		}
+		nonEmptyLines = append(nonEmptyLines, line)
+	}
+	return nonEmptyLines
+}
+
+func shuffleLines(lines []string, width int) (bool, []string) {
+	shuffledLines := make([]string, len(lines))
+	copy(shuffledLines, lines)
+	shuffled := false
+	for lineIndex, line := range shuffledLines {
+		if lineIndex == len(shuffledLines) - 1 {
+			break
+		}
+
+		if len(line) == width {
+			continue
+		}
+
+		nextLine := lines[lineIndex + 1]
+		if len(nextLine) == 0 {
+			continue
+		}
+		nextWord := getFirstWord(nextLine)
+		if len(line) + len(nextWord) <= width {
+			shuffledLines[lineIndex] = fmt.Sprintf("%s%s", strings.ReplaceAll(line, "\n", ""), nextWord)
+			shuffledLines[lineIndex + 1] = strings.TrimLeft(nextLine, nextWord)
+			shuffled = true
+			break
 		}
 	}
-	return strings.Join(formattedText, "\n"), nil
+	return shuffled, shuffledLines
+}
+
+func getFirstWord(line string) string {
+	startingIndex := 0
+	endingIndex := 1
+	for {
+		if endingIndex >= len(line) {
+			break
+		}
+		if string(line[endingIndex - 1]) == " " {
+			if endingIndex == 1 {
+				break
+			} else {
+				endingIndex -= 1
+				break
+			}
+		}
+		endingIndex += 1
+	}
+	return line[startingIndex:endingIndex]
+}
+
+func formatLines(lines []string, width int) []string {
+	formattedLines := []string{}
+	for _, line := range lines {
+		for _, splitLine := range splitLines(line, width) {
+			formattedLines = append(formattedLines, splitLine)
+		}
+	}
+	return formattedLines
 }
 
 func splitLines(line string, width int) []string {
