@@ -1,7 +1,10 @@
-build:
+dep:
+	dep ensure
+
+build: dep
 	go build -o texfmt ./cmd/texfmt/main.go
 
-test:
+test: build
 	go test -v ./...
 
 watch:
