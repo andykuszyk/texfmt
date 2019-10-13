@@ -51,7 +51,7 @@ func getText(fileInfo os.FileInfo) string {
 	if err != nil {
 		return ""
 	}
-	return string(bytes)
+	return strings.TrimRight(string(bytes), "\n")
 }
 
 func getName(fileName string) string {
