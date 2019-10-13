@@ -9,10 +9,11 @@ jobs:
     script: make test
 before_deploy: make package
 deploy:
+  skip_cleanup: true
   on:
     tags: true
   provider: releases
   api_key:
     secure: VOYkYdHvAPTqVO0yNGqtKm328oqpoxiA05yK/m8CihUpSJLggD0coJZzOh7XGYLB4ogH6TgOxJS5yT+35ocOv2wJ9/Km20oWx/U4O4C0iO1P6JPY6eAesed6eiop8bKSr4oywOSQJgqpp8rbs6xqbxbbRl+yOkAtknZORyfPRfwFOLR+4zdhgupl+6sDdX80oNjC+SHoLpMR2DsNLp804giU333a+9sp460tEv5013TOCl7TCu1jR6NYMXZ8+UkqA732hkEvdInC2r9xVyiIk9pPsD097zCLuuRbnkw3e7Hi7mf8QmZ07AA/UC6oVkXduAx7cGxSEH8S3pcdTwqEtqPfn5mCyQ4TAiUOyl5qerEkf7UtS+hzxpTOsyXb3tkpNzI5ZEXwQBPyFWmoPsYvJFEixDgun2PI7Uef4yNSmUvexvaPFw8fz5yS/km8F9ukWDpqClsGwee9B4pzByP1QSqFxfGHh0a/vg6cGi9bMd2orK6oz6ZNX5Z6sTT6i6/PiH0ph3QUJC227ECaH8s2+zZUxbLRkF4N8j0x3mViHjtv0hn3e8aldSIvdPrSUSUnLbRa+GS7TglbtID7cC0YC7SgLGdSeQ2ghzoMZZVxDIsemjK6y3t5vpxNDuPJoWYbcLdsy9eurCgWJAw6qVIDkWxzteTJiEJrj0+P2YTD6/c=
   file_glob: true
-  file: texfmt*
+  file: releases/*

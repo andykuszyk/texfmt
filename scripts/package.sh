@@ -2,6 +2,7 @@
 archs=("amd64" "386")
 oss=("darwin" "linux" "windows")
 
+mkdir releases
 for arch in ${archs[*]}; do
     for os in ${oss[*]}; do
         if [[ "$os" == "windows" ]]; then
@@ -11,7 +12,7 @@ for arch in ${archs[*]}; do
         fi
         echo "Building texfmt for os/arch: $os / $arch"
         GOOS=$os GOARCH=$arch go build -o texfmt$ext ./cmd/texfmt/main.go
-        tar -cvf texfmt-$os-$arch.tar texfmt$ext
+        tar -cvf releases/texfmt-$os-$arch.tar texfmt$ext
         rm texfmt$ext
     done
 done
