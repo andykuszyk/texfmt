@@ -6,3 +6,6 @@ test:
 
 watch:
 	find . | grep -e go$ | entr -c make test
+
+package:
+	./scripts/package.sh
