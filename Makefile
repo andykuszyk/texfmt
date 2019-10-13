@@ -1,5 +1,5 @@
 build:
-	go build ./cmd/texfmt/main.go
+	go build -o texfmt ./cmd/texfmt/main.go
 
 test:
 	go test -v ./...
