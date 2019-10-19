@@ -45,12 +45,12 @@ func shuffleLines(lines []string, width int) (bool, []string) {
 			break
 		}
 
-		if len(line) == width {
+		if len(line) == width || len(line) == 0 || string(line[0]) == "\\" {
 			continue
 		}
 
 		nextLine := lines[lineIndex + 1]
-		if len(nextLine) == 0 {
+		if len(nextLine) == 0 || string(nextLine[0]) == "\\" {
 			continue
 		}
 		nextWord := getFirstWord(nextLine)
