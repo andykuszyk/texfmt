@@ -4,6 +4,7 @@ import (
 	"log"
 	"flag"
 	"github.com/andykuszyk/texfmt/internal/formatter"
+	"os"
 )
 
 func main() {
@@ -17,6 +18,6 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	print(formatted)
+	os.Stdout.WriteString(formatted)
 }
 
