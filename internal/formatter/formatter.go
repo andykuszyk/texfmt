@@ -25,17 +25,6 @@ func Format(file string, width int) (string, error) {
 	return strings.TrimRight(strings.Join(formattedLines, "\n"), "\n"), nil
 }
 
-func removeEmpty(lines []string) []string {
-	nonEmptyLines := []string{}
-	for _, line := range lines {
-		if len(line) == 0 {
-			continue
-		}
-		nonEmptyLines = append(nonEmptyLines, line)
-	}
-	return nonEmptyLines
-}
-
 func shuffleLines(lines []string, width int) (bool, []string) {
 	shuffledLines := make([]string, len(lines))
 	copy(shuffledLines, lines)
