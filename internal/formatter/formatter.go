@@ -22,7 +22,7 @@ func Format(file string, width int) (string, error) {
 		formattedLines = make([]string, len(shuffledLines))
 		copy(formattedLines, shuffledLines)
 	}
-	return strings.Join(removeEmpty(formattedLines), "\n"), nil
+	return strings.TrimRight(strings.Join(formattedLines, "\n"), "\n"), nil
 }
 
 func removeEmpty(lines []string) []string {
@@ -40,6 +40,7 @@ func shuffleLines(lines []string, width int) (bool, []string) {
 	shuffledLines := make([]string, len(lines))
 	copy(shuffledLines, lines)
 	shuffled := false
+	indexesToDelete := []int{}
 	for lineIndex, line := range shuffledLines {
 		if lineIndex == len(shuffledLines) - 1 {
 			break
@@ -57,9 +58,15 @@ func shuffleLines(lines []string, width int) (bool, []string) {
 		if len(line) + len(nextWord) <= width {
 			shuffledLines[lineIndex] = fmt.Sprintf("%s%s", strings.ReplaceAll(line, "\n", ""), nextWord)
 			shuffledLines[lineIndex + 1] = strings.TrimLeft(nextLine, nextWord)
+			if len(nextLine) > 0 && len(shuffledLines[lineIndex + 1]) == 0 {
+				indexesToDelete = append(indexesToDelete, lineIndex + 1)
+			}
 			shuffled = true
 			break
 		}
+	}
+	for i, indexToDelete := range indexesToDelete {
+		shuffledLines = append(shuffledLines[:indexToDelete - i], shuffledLines[indexToDelete - i:]...)
 	}
 	return shuffled, shuffledLines
 }
